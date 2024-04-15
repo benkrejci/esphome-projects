@@ -163,7 +163,7 @@ button:
 sensor:
   - platform: homeassistant
     id: power_production
-    entity_id: sensor.envoy_202321021710_current_power_production
+    entity_id: sensor.your_solar_power_sensor
     unit_of_measurement: kW
     device_class: power
     state_class: measurement
