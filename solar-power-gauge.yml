@@ -11,10 +11,18 @@ esphome:
       - script.wait: stepper_backward_full
 
 substitutions:
-  step_speed: 600 steps/s
-  step_delay: 1.4s
-  steps_total: "635"
-  steps_gauge_max: "280"
+  step_speed: 400 steps/s
+  # How long it takes to go the max # of steps (good to overshoot
+  # since esphome seems to undershoot the speed a bit)
+  step_delay: 1.8s
+  # Total number of steps for a full dial rotation (also good to
+  # overshoot so that the gauge fully resets its position during
+  # initialization)
+  steps_total: "645"
+  # The number of steps until the dial is at its maximum position
+  # (A full rotation is too far)
+  steps_gauge_max: "276"
+  # The number of kW represented when the dial is at max position
   gauge_max: "10.0"
 
 globals:
@@ -48,6 +56,8 @@ wifi:
 captive_portal:
 
 output:
+  # uln2003's sleep_pin can be used, but setting it manually has
+  # been more reliable (and saves power)
   - platform: gpio
     id: stepper_enable
     pin: GPIO6
@@ -59,7 +69,6 @@ stepper:
     pin_b: GPIO3
     pin_c: GPIO2
     pin_d: GPIO4
-    sleep_when_done: True
     max_speed: $step_speed
     acceleration: inf
     deceleration: inf
@@ -74,6 +83,9 @@ number:
     optimistic: True
     set_action: 
       then:
+        # Without this delay, `id(gauge_control).state` has not yet
+        # been updated
+        - delay: 50ms
         - script.execute: stepper_refresh
 
 script:
@@ -130,6 +142,7 @@ time:
     on_time: 
       seconds: 30
       minutes: 0
+      hours: /6
       then:
         - script.execute: stepper_init
         - script.wait: stepper_init
@@ -150,7 +163,7 @@ button:
 sensor:
   - platform: homeassistant
     id: power_production
-    entity_id: sensor.current_power_production_sensor_entity_id
+    entity_id: sensor.envoy_202321021710_current_power_production
     unit_of_measurement: kW
     device_class: power
     state_class: measurement
