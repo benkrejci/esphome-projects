@@ -163,6 +163,8 @@ button:
 sensor:
   - platform: homeassistant
     id: power_production
+    # Replace this with your Home Assistant solar power sensor
+    # entity ID
     entity_id: sensor.your_solar_power_sensor
     unit_of_measurement: kW
     device_class: power
