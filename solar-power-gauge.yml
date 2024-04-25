@@ -40,10 +40,12 @@ logger:
 
 api:
   encryption:
-    key: !secret api_key
+    # UPDATE THIS
+    key: YOUR_PASSWORD
 
 ota:
-  password: !secret ota_password
+  # UPDATE THIS
+  password: YOUR_PASSWORD
 
 wifi:
   ssid: !secret wifi_ssid
@@ -51,7 +53,8 @@ wifi:
 
   ap:
     ssid: "Solar-Gauge Fallback Hotspot"
-    password: !secret ap_password
+    # UPDATE THIS
+    password: YOUR_PASSWORD
 
 captive_portal:
 
@@ -163,9 +166,8 @@ button:
 sensor:
   - platform: homeassistant
     id: power_production
-    # Replace this with your Home Assistant solar power sensor
-    # entity ID
-    entity_id: sensor.your_solar_power_sensor
+    # Replace this with your home assistant power entity ID
+    entity_id: sensor.your_power_sensor
     unit_of_measurement: kW
     device_class: power
     state_class: measurement
