@@ -143,9 +143,9 @@ script:
 time:
   - platform: sntp
     on_time: 
-      seconds: 30
+      seconds: 15
       minutes: 0
-      hours: /6
+      hours: /12
       then:
         - script.execute: stepper_init
         - script.wait: stepper_init
